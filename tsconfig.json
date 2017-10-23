@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@inmotionnow/utilities": ["@inmotionnow/utilities"],
-      "@inmotionnow/react-momentum": ["@inmotionnow/react-momentum"]
+      "@inmotionnow/react-momentum": ["@inmotionnow/react-momentum"],
+      "flatpickr": [ "../node_modules/flatpickr/dist/flatpickr.min.js" ]
     }
   },
   "exclude": [
