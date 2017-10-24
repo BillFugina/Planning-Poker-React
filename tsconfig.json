@@ -15,7 +15,7 @@
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
       "flatpickr": [ "../node_modules/flatpickr/dist/flatpickr.min.js" ]
     }
