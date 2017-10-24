@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "build/dist",
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es5",
     "lib": ["es6", "dom"],
     "sourceMap": true,
@@ -15,10 +15,8 @@
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@inmotionnow/utilities": ["@inmotionnow/utilities"],
-      "@inmotionnow/react-momentum": ["@inmotionnow/react-momentum"],
       "flatpickr": [ "../node_modules/flatpickr/dist/flatpickr.min.js" ]
     }
   },

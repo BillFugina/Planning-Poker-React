@@ -1,0 +1,1 @@
+export const Containerless: React.StatelessComponent<any> = ({ children }) => children
