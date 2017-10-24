@@ -1,34 +1,32 @@
 import * as React from 'react'
 import './App.css'
-import { Grid, Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
-import { Containerless } from 'components'
+import { Navbar, Jumbotron } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 class App extends React.Component {
   render() {
     return (
-      <Containerless>
+      <div>
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
-              <a href="#">React-Bootstrap</a>
+              <Link to="/">Planning Poker</Link>
             </Navbar.Brand>
           </Navbar.Header>
-          <Nav>
-            <NavItem eventKey={1} href="#">Link</NavItem>
-            <NavItem eventKey={2} href="#">Link</NavItem>
-            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Action</MenuItem>
-              <MenuItem eventKey={3.2}>Another action</MenuItem>
-              <MenuItem eventKey={3.3}>Something else here</MenuItem>
-              <MenuItem divider={true} />
-              <MenuItem eventKey={3.4}>Separated link</MenuItem>
-            </NavDropdown>
-          </Nav>
         </Navbar>
-        <Grid>
-          <div />
-        </Grid>
-      </Containerless>
+        <Jumbotron>
+          <h1>Planning Poker</h1>
+          <p>Games of planning poker are organized by session name.</p>
+          <p>
+            All users entering with the same session name will be playing the same game.
+            Session names are case sensitive. Start or join a session below.
+          </p>
+          <p>
+            A session should be started on a large-form display visible to all users.
+            On the session page, there will be a large QR Code to help players to join the round.
+          </p>
+        </Jumbotron>
+      </div>
     )
   }
 }

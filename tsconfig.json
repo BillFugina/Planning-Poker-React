@@ -15,11 +15,14 @@
     "strictNullChecks": false,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
       "flatpickr": [ "../node_modules/flatpickr/dist/flatpickr.min.js" ]
     }
   },
+  "include":[
+    "./src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "build",
