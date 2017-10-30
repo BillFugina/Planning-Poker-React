@@ -1,4 +1,3 @@
-import { IApiErrorMessage } from 'model/api'
 import { IUrlSegment } from 'helpers/url'
 
 export type IHttpRequestMethod = 'get' | 'post' | 'put' | 'patch' | 'delete'
@@ -36,6 +35,8 @@ export interface IHttpResponse<TResponseBody> {
 }
 
 // HTTP Error Object
+interface IApiErrorMessage {  
+}
 export interface IHttpError {
   error: IApiErrorMessage
 }

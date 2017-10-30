@@ -1,4 +1,5 @@
 import { IQueryStringParams } from 'model/query-string'
+import { IGuid } from 'model'
 
 export interface IStorageService<TKey extends string> {
   get<TValue = string>(key: TKey): TValue | undefined
@@ -10,7 +11,7 @@ export interface IStorageService<TKey extends string> {
  * Cookie Storage
  */
 export interface ICookieStorage {
-  AuthN
+  AuthN: string
 }
 export type ICookieStorageKey = keyof ICookieStorage
 
@@ -18,7 +19,7 @@ export type ICookieStorageKey = keyof ICookieStorage
  * Local Storage
  */
 export interface ILocalStorage {
-  AuthZ
+  AuthZ: string
   QueryString: IQueryStringParams
 }
 export type ILocalStorageKey = keyof ILocalStorage

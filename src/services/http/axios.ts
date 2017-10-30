@@ -1,5 +1,5 @@
 import { AxiosResponse, default as Axios } from 'axios'
-import { DI, IAuthorizationService, inject, injectable, ISessionService } from 'dependency-injection'
+import { injectable } from 'dependency-injection'
 import {
   IHttpRequest,
   IHttpRequestBuilder,
@@ -158,17 +158,9 @@ export class AxiosHttpService implements IHttpService {
 @injectable()
 export class AxiosWebApiService extends AxiosHttpService implements IHttpService {
 
-  @inject(DI.IAuthorizationService) private readonly authorizationService: IAuthorizationService
-  @inject(DI.ISessionService) private readonly session: ISessionService
-
-  private get token() {
-    const result = this.authorizationService.token
-    return result
-  }
-
   protected create(request: IHttpRequest): IHttpRequestBuilder {
-    const req = super.create(request).withHeader('x-session', this.session.SessionGUID)
-    return this.token ? req.withHeader('Authorization', `bearer ${this.token}`) : req
+    const req = super.create(request)
+    return req
   }
 
   protected resolve(segments: IUrlSegment[]): string {

@@ -8,6 +8,8 @@ import { combineReducers } from 'reducers'
 import { SessionReducer } from 'reducers/session-reducer'
 import createSagaMiddleware from 'redux-saga'
 import { createLogger as createLoggerMiddleware } from 'redux-logger'
+import { combineSagas } from '../sagas/index'
+import { SessionSaga } from '../sagas/session-saga'
 
 const reducers = combineReducers(
     {
@@ -30,6 +32,9 @@ const composeEnhancers = composeWithDevTools({
 })
 
 const store = Redux.createStore<IAppState>(reducers, composeEnhancers(middleware))
+
+const rootSaga = combineSagas(SessionSaga)
+sagaMiddleware.run(rootSaga)
 
 interface IStoreProps { }
 

@@ -1,9 +1,9 @@
 import { injectable } from 'dependency-injection'
 import { BaseToasterService } from 'services/toaster/base-toaster-service'
-import { dispatch } from 'app/store'
-import { showToastAction } from 'app/actions/toaster-actions'
+import { dispatch } from 'store'
+import { showToastAction } from 'actions/toaster-actions'
 import { IToastLevel, IToastOptions } from 'model/toaster'
-import { Guid } from '@inmotionnow/utilities'
+import { Guid } from 'helpers/guid'
 
 @injectable()
 export class AlertToasterService extends BaseToasterService {
