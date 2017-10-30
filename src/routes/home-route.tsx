@@ -1,14 +1,31 @@
 import * as React from 'react'
+import * as Redux from 'redux'
+import { connect } from 'react-redux'
 import { Container, Message, Header, Input, Divider, Button, InputOnChangeData, ButtonProps } from 'semantic-ui-react'
+import { RouteComponentProps } from 'react-router'
+import { IAppState } from 'state'
+import { startSessionAction } from 'actions/session-actions'
 
-interface IComponentOwnProps { }
-
-type IComponentProps = IComponentOwnProps
+interface IComponentRouteParams { }
+interface IComponentOwnProps extends RouteComponentProps<IComponentRouteParams> { }
 
 interface IComponentState {
     sessionName: string
     userName: string
 }
+
+interface IComponentMapStateProps {
+    sessionID: number
+}
+
+interface IComponentMapDispatchProps {
+    startSession: (sessionName: string, userName: string) => void
+}
+
+type IComponentProps = 
+    & IComponentOwnProps
+    & IComponentMapStateProps
+    & IComponentMapDispatchProps
 
 class HomeRouteClass extends React.Component<IComponentProps, IComponentState> {
     constructor(props: IComponentProps, state: IComponentState) {
@@ -19,24 +36,38 @@ class HomeRouteClass extends React.Component<IComponentProps, IComponentState> {
         }
     }
 
+    static mapStateToProps = (state: IAppState, props: IComponentOwnProps): IComponentMapStateProps => {
+        const sessionID = state.Session.SessionID
+        return { sessionID }
+    }        
+
+    static mapDispatchToProps = (dispatch: Redux.Dispatch<IAppState>, props: IComponentOwnProps): IComponentMapDispatchProps => {
+        return {
+            startSession: (sessionName: string, userName: string) => dispatch(startSessionAction(sessionName, userName))
+        }
+    }
+
     static defaultProps: Partial<IComponentProps> = {}
 
     handleNameChange = (event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
         const { userName, ...rest } = this.state
         if (userName !== data.value) {
-            this.setState({ userName: data.Value, ...rest })
+            this.setState({ userName: data.value, ...rest })
         }
     }
 
     handleSessionChange = (event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
         const { sessionName, ...rest } = this.state
         if (sessionName !== data.value) {
-            this.setState({ sessionName: data.Value, ...rest })
+            this.setState({ sessionName: data.value, ...rest })
         }
     }
 
     handleNewSessionClick = (event: React.MouseEvent<HTMLButtonElement>, data: ButtonProps) => {
-        /* TODO */
+        const { startSession } = this.props
+        const { sessionName, userName } = this.state
+        startSession(sessionName, userName)
+        
     }
     handleJoinSessionClick = (event: React.MouseEvent<HTMLButtonElement>, data: ButtonProps) => {
         /* TODO */
@@ -75,6 +106,6 @@ class HomeRouteClass extends React.Component<IComponentProps, IComponentState> {
 
 }
 
-const HomeRoute = HomeRouteClass
+const HomeRoute = connect(HomeRouteClass.mapStateToProps, HomeRouteClass.mapDispatchToProps)(HomeRouteClass)
 
 export { HomeRoute }
