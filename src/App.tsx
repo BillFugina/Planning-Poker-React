@@ -7,7 +7,6 @@ import { IWebApiService, DI, inject } from 'dependency-injection'
 
 class App extends React.Component {
   @inject(DI.IWebApiService) private readonly webApiService: IWebApiService
-  private _deactivated = false
 
   async componentWillMount() {
     await this.startup()
@@ -18,9 +17,7 @@ class App extends React.Component {
     const { webApiService } = this
     webApiService.addResponseObserver(
       response => {
-        if (response.status === 403) {
-          this._deactivated = true
-        }
+        /* TODO */
       }
     )
     return Promise.resolve()
