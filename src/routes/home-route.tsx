@@ -5,6 +5,7 @@ import { Container, Message, Header, Input, Divider, Button, InputOnChangeData, 
 import { RouteComponentProps } from 'react-router'
 import { IAppState } from 'state'
 import { startSessionAction } from 'actions/session-actions'
+import { IGuid } from 'model'
 
 interface IComponentRouteParams { }
 interface IComponentOwnProps extends RouteComponentProps<IComponentRouteParams> { }
@@ -15,7 +16,7 @@ interface IComponentState {
 }
 
 interface IComponentMapStateProps {
-    sessionID: number
+    sessionID: IGuid
 }
 
 interface IComponentMapDispatchProps {
@@ -37,7 +38,9 @@ class HomeRouteClass extends React.Component<IComponentProps, IComponentState> {
     }
 
     static mapStateToProps = (state: IAppState, props: IComponentOwnProps): IComponentMapStateProps => {
-        const sessionID = state.Session.SessionID
+        const sessionID = state.Session
+            ? state.Session.Id
+            : null
         return { sessionID }
     }        
 

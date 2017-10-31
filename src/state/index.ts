@@ -1,13 +1,9 @@
-export type SessionState = {
-    SessionID: number
-}
+import { ISession } from 'model'
 
 export interface IAppState {
-    Session: SessionState
+    Session: ISession
 }
 
 export const InitialAppState: Readonly<IAppState> = {
-    Session: {
-        SessionID: undefined
-    }
+    Session: null
 }
