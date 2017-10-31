@@ -9,7 +9,7 @@ export class SessionSaga implements IAppSaga {
     @inject(DI.IWebApiService) protected readonly webapi: IWebApiService
 
     public *run(): ISagaGenerator {
-        yield takeEvery<StartSessionAction>('RNA_MESSAGE_SEND', this.startSession.bind(this))
+        yield takeEvery<StartSessionAction>('START_SESSION', this.startSession.bind(this))
     }
 
     private *startSession(action: StartSessionAction): ISagaGenerator {
@@ -20,7 +20,7 @@ export class SessionSaga implements IAppSaga {
         }
         
         const request = this.webapi.post('sessions').withBody(sessionApplication).request()
-        const response = yield (call(this.webapi.send, request))
+        const response = yield (call(this.webapi.send.bind(this.webapi), request))
         if (response) {
             yield put(startSessionSucceededAction(response.data))
         } else {

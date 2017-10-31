@@ -1,6 +1,7 @@
 import { IStorageService, ICookieStorageKey } from 'services/storage'
 import * as cookie from 'js-cookie'
 import { injectable } from 'dependency-injection'
+import { Environment } from 'environment'
 
 @injectable()
 export class CookieStorageService implements IStorageService<ICookieStorageKey> {
@@ -10,18 +11,12 @@ export class CookieStorageService implements IStorageService<ICookieStorageKey> 
   }
 
   remove(key: ICookieStorageKey): void {
-    const options  = {
-      domain: process.env.COOKIE_DOMAIN,
-      expires: Number(process.env.COOKIE_EXPIRES)
-    }
+    const { cookies: options } = Environment
     cookie.remove(key, options)
   }
 
   set<TValue>(key: ICookieStorageKey, value: TValue): void {
-    const options  = {
-      domain: process.env.COOKIE_DOMAIN,
-      expires: Number(process.env.COOKIE_EXPIRES)
-    }
+    const { cookies: options } = Environment
     cookie.set(key, value, options)
   }
 

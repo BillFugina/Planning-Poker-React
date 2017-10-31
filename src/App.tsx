@@ -3,8 +3,29 @@ import 'App.css'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Header, Container } from 'semantic-ui-react'
 import { HomeRoute } from 'routes/home-route'
+import { IWebApiService, DI, inject } from 'dependency-injection'
 
 class App extends React.Component {
+  @inject(DI.IWebApiService) private readonly webApiService: IWebApiService
+  private _deactivated = false
+
+  async componentWillMount() {
+    await this.startup()
+  }
+
+  // App Startup Code goes here
+  private async startup(): Promise<void> {
+    const { webApiService } = this
+    webApiService.addResponseObserver(
+      response => {
+        if (response.status === 403) {
+          this._deactivated = true
+        }
+      }
+    )
+    return Promise.resolve()
+  }
+
   render() {
     return (
       <Router>
