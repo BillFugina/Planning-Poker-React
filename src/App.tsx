@@ -2,8 +2,8 @@ import * as React from 'react'
 import 'App.css'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Header, Container } from 'semantic-ui-react'
-import { HomeRoute } from 'routes/home-route'
 import { IWebApiService, DI, inject } from 'dependency-injection'
+import { MainRoute } from 'routes/main-route'
 
 class App extends React.Component {
   @inject(DI.IWebApiService) private readonly webApiService: IWebApiService
@@ -30,7 +30,7 @@ class App extends React.Component {
           <Route
             exact={true}
             path="/"
-            component={HomeRoute}
+            component={MainRoute}
           />
           <Route
             exact={true}
