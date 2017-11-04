@@ -1,7 +1,7 @@
-import * as Redux from 'redux'
+import { IToasterActionTypes } from './toaster-actions'
 import { ISessionActionTypes } from 'actions/session-actions'
 import { ISystemActionTypes } from 'actions/system-actions'
-import { IToasterActionTypes } from './toaster-actions'
+import * as Redux from 'redux'
 
 export type IAppActionType =
     | ISystemActionTypes
@@ -14,3 +14,7 @@ export interface IAppAction<TPayload = any, TActionType extends IAppActionType =
 }
 
 export const MutedActions: string[] = []
+
+export type ActionFailedPayload = {
+    error: any
+}

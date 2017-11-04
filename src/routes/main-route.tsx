@@ -1,11 +1,12 @@
+import { restoreSessionAction } from 'actions/session-actions'
+import { IGuid, ISession } from 'model'
 import * as React from 'react'
-import * as Redux from 'redux'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
-import { IAppState } from 'state'
-import { ISession } from 'model'
+import * as Redux from 'redux'
 import { HomeRoute } from 'routes/home-route'
 import { MasterRoute } from 'routes/master-route'
+import { IAppState } from 'state'
 
 interface IComponentRouteParams { }
 interface IComponentOwnProps extends RouteComponentProps<IComponentRouteParams> { }
@@ -16,7 +17,9 @@ interface IComponentMapStateProps {
     Session: ISession
 }
 
-interface IComponentMapDispatchProps { }
+interface IComponentMapDispatchProps { 
+    restoreSession: (sessionID?: IGuid) => void
+}
 
 type IComponentProps =
     & IComponentOwnProps
@@ -38,7 +41,14 @@ class MainRouteClass extends React.Component<IComponentProps, IComponentState> {
     }
 
     static mapDispatchToProps = (dispatch: Redux.Dispatch<IAppState>, props: IComponentOwnProps): IComponentMapDispatchProps => {
-        return {}
+        return {
+            restoreSession: (sessionID?: IGuid) => dispatch(restoreSessionAction(sessionID))
+        }
+    }
+
+    componentWillMount(): void {
+        const { restoreSession } = this.props
+        restoreSession()
     }
 
     static defaultProps: Partial<IComponentProps> = {}
