@@ -74,9 +74,9 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
                     <Segment>
                         <Header as="h3">Paticipants</Header>
                         <Divider />
-                        <Table basic="very">
+                        <Table basic="very" compact>
                             <Table.Body>
-                                <Table.Row>
+                                <Table.Row key={Master.Id}>
                                     <Table.Cell collapsing={true}>
                                         <Icon name="legal" />
                                     </Table.Cell>
@@ -88,17 +88,17 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
                                     </Table.Cell>
                                 </Table.Row>
                                 {Voters.map(voter => (
-                                    <Table.Row>
-                                    <Table.Cell collapsing={true}>
-                                        <Icon name="legal" />
-                                    </Table.Cell>
-                                    <Table.Cell>
-                                        {voter.Name}
-                                    </Table.Cell>
-                                    <Table.Cell collapsing={true}>
-                                        <Icon fitted name="x" color="red" link />
-                                    </Table.Cell>
-                                </Table.Row>
+                                    <Table.Row key={voter.Id}>
+                                        <Table.Cell collapsing={true}>
+                                            <Icon name="user" />
+                                        </Table.Cell>
+                                        <Table.Cell>
+                                            {voter.Name}
+                                        </Table.Cell>
+                                        <Table.Cell collapsing={true}>
+                                            <Icon fitted name="x" color="red" link />
+                                        </Table.Cell>
+                                    </Table.Row>
                                 ))}
                             </Table.Body>
                         </Table>
