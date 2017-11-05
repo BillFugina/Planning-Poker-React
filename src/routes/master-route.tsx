@@ -1,4 +1,5 @@
-import { ParticipantRole, IParticipant } from 'model'
+import { removeParticipantAction } from 'actions/participant-actions'
+import { IGuid, IParticipant, ParticipantRole } from 'model'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
@@ -10,7 +11,8 @@ import {
     Header,
     Icon,
     Segment,
-    Table
+    Table,
+    Card
 } from 'semantic-ui-react'
 import { IAppState } from 'state'
 
@@ -20,12 +22,15 @@ interface IComponentOwnProps extends RouteComponentProps<IComponentRouteParams> 
 interface IComponentState { }
 
 interface IComponentMapStateProps {
+    SessionID: IGuid
     Name: string,
     Master: IParticipant
     Voters: IParticipant[]
 }
 
-interface IComponentMapDispatchProps { }
+interface IComponentMapDispatchProps {
+    removeParticipant: (sessionID: IGuid, participant: IParticipant) => void
+}
 
 type IComponentProps =
     & IComponentOwnProps
@@ -40,22 +45,24 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
     }
 
     static mapStateToProps = (state: IAppState, props: IComponentOwnProps): IComponentMapStateProps => {
-        const Session = state.Session || null
+        const session = state.Session || null
         const { Participants } = state
-        const { Name, Master } = Session
-        const Voters = Object.keys(Participants).map(k => Participants[k]).filter(p => p.Role === ParticipantRole.Voter)
-        return { Name, Master, Voters }
+        const { Name, Master, Id: SessionID } = session
+        const Voters = Object.keys(Participants).map(k => Participants[k]).filter(p => p && p.Role === ParticipantRole.Voter)
+        return { Name, Master, Voters, SessionID }
     }
 
     static mapDispatchToProps = (dispatch: Redux.Dispatch<IAppState>, props: IComponentOwnProps): IComponentMapDispatchProps => {
-        return {}
+        return {
+            removeParticipant: (sessionID: IGuid, participant: IParticipant) => dispatch(removeParticipantAction(sessionID, participant))
+        }
     }
 
     static defaultProps: Partial<IComponentProps> = {}
 
     handleLinkClick = (participant: IParticipant) => (event: React.MouseEvent<HTMLLinkElement>) => {
-        // tslint:disable-next-line:no-console
-        console.log('Click')
+        const { removeParticipant, SessionID } = this.props
+        removeParticipant(SessionID, participant)
     }
 
     render() {
@@ -98,7 +105,7 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
                                             {voter.Name}
                                         </Table.Cell>
                                         <Table.Cell collapsing={true}>
-                                            <Icon fitted name="x" color="red" link onClick={handleLinkClick(voter)}/>
+                                            <Icon fitted name="x" color="red" link onClick={handleLinkClick(voter)} />
                                         </Table.Cell>
                                     </Table.Row>
                                 ))}
@@ -108,6 +115,9 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
                     <Segment>
                         <Header as="h3">Current Round</Header>
                         <Divider />
+                        <Segment textAlign="center">
+                            <Card color="teal" centered/>
+                        </Segment>
                     </Segment>
                     <Segment>
                         <Header as="h3">Rounds</Header>

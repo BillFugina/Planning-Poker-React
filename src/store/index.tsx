@@ -11,6 +11,7 @@ import createSagaMiddleware from 'redux-saga'
 import { combineSagas } from 'sagas/index'
 import { SessionSaga } from 'sagas/session-saga'
 import { IAppState } from 'state'
+import { ParticipantSaga } from '../sagas/participant-saga'
 
 const reducers = combineReducers(
     {
@@ -35,7 +36,7 @@ const composeEnhancers = composeWithDevTools({
 
 const store = Redux.createStore<IAppState>(reducers, composeEnhancers(middleware))
 
-const rootSaga = combineSagas(SessionSaga)
+const rootSaga = combineSagas(SessionSaga, ParticipantSaga)
 sagaMiddleware.run(rootSaga)
 
 interface IStoreProps { }

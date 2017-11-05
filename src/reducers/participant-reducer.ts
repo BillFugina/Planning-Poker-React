@@ -30,8 +30,7 @@ const ParticipantAspect: IAppReducerAspect<IParticipantState, IAppActionType> = 
 
     UNREGISTER_PARTICIPANT: (state, action: UnregisterParticipantAction) => {
         let participants = { ...{}, ...state}
-        var targetParticipant = action.payload.participant
-        participants[targetParticipant.Id] = undefined
+        participants[action.payload.participantID] = undefined
         return participants
     }
 }

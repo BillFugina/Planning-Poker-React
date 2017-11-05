@@ -1,10 +1,11 @@
 import { ActionFailedPayload, IAppAction } from './index'
-import { IParticipant } from 'model'
+import { IParticipant, IGuid } from 'model'
 
 // ACTION TYPES
 export type IParticipantActionTypes =
     | IRegisterParticipantActionTypes
     | IUnregisterParticipantActionTypes
+    | IRemoveParticipantActionTypes
 
 export type IRegisterParticipantActionTypes =
     | 'REGISTER_PARTICIPANT'
@@ -15,6 +16,11 @@ export type IUnregisterParticipantActionTypes =
     | 'UNREGISTER_PARTICIPANT'
     | 'UNREGISTER_PARTICIPANT_SUCCEEDED'
     | 'UNREGISTER_PARTICIPANT_FAILED'
+
+export type IRemoveParticipantActionTypes =
+    | 'REMOVE_PARTICIPANT'
+    | 'REMOVE_PARTICIPANT_SUCCEEDED'
+    | 'REMOVE_PARTICIPANT_FAILED'
 
 /*
 /* Payload Area
@@ -32,11 +38,21 @@ export type RegisterParticipantActionFailedPayload = ActionFailedPayload & {
 
 // UNREGISTER_PARTICIPANT Payloads
 export type UnregisterParticipantActionPayload = BaseParticipantActionPayload & {
-    participant: IParticipant
+    participantID: IGuid
 }
 export type UnregisterParticipantActionSucceededPayload = BaseParticipantActionPayload & {
 }
 export type UnregisterParticipantActionFailedPayload = ActionFailedPayload & {
+}
+
+// REMOVE_PARTICIPANT Payloads
+export type RemoveParticipantActionPayload = BaseParticipantActionPayload & {
+    sessionID: IGuid
+    participant: IParticipant
+}
+export type RemoveParticipantActionSucceededPayload = BaseParticipantActionPayload & {
+}
+export type RemoveParticipantActionFailedPayload = ActionFailedPayload & {
 }
 
 /*
@@ -53,6 +69,11 @@ export type RegisterParticipantFailedAction = ParticipantAction<RegisterParticip
 export type UnregisterParticipantAction = ParticipantAction<UnregisterParticipantActionPayload, 'UNREGISTER_PARTICIPANT'>
 export type UnregisterParticipantSucceededAction = ParticipantAction<UnregisterParticipantActionSucceededPayload, 'UNREGISTER_PARTICIPANT_SUCCEEDED'>
 export type UnregisterParticipantFailedAction = ParticipantAction<UnregisterParticipantActionFailedPayload, 'UNREGISTER_PARTICIPANT_FAILED'>
+
+// Remove Participant Actions
+export type RemoveParticipantAction = ParticipantAction<RemoveParticipantActionPayload, 'REMOVE_PARTICIPANT'>
+export type RemoveParticipantSucceededAction = ParticipantAction<RemoveParticipantActionSucceededPayload, 'REMOVE_PARTICIPANT_SUCCEEDED'>
+export type RemoveParticipantFailedAction = ParticipantAction<RemoveParticipantActionFailedPayload, 'REMOVE_PARTICIPANT_FAILED'>
 
 /*
 /* Actions Creators Area
@@ -72,8 +93,8 @@ export function registerParticipantFailedAction(payload: RegisterParticipantActi
 }
 
 // Unregister Participant Action Creators
-export function unregisterParticipantAction(participant: IParticipant): UnregisterParticipantAction {
-    return { type: 'UNREGISTER_PARTICIPANT', payload: { participant } }
+export function unregisterParticipantAction(participantID: IGuid): UnregisterParticipantAction {
+    return { type: 'UNREGISTER_PARTICIPANT', payload: { participantID } }
 }
 
 export function unregisterParticipantSucceededAction(session: IParticipant): UnregisterParticipantSucceededAction {
@@ -82,4 +103,17 @@ export function unregisterParticipantSucceededAction(session: IParticipant): Unr
 
 export function unregisterParticipantFailedAction(payload: UnregisterParticipantActionFailedPayload): UnregisterParticipantFailedAction {
     return { type: 'UNREGISTER_PARTICIPANT_FAILED', payload }
+}
+
+// Remove Participant Action Creators
+export function removeParticipantAction(sessionID: IGuid, participant: IParticipant): RemoveParticipantAction {
+    return { type: 'REMOVE_PARTICIPANT', payload: { sessionID, participant } }
+}
+
+export function removeParticipantSucceededAction(): RemoveParticipantSucceededAction {
+    return { type: 'REMOVE_PARTICIPANT_SUCCEEDED' }
+}
+
+export function removeParticipantFailedAction(payload: RemoveParticipantActionFailedPayload): RemoveParticipantFailedAction {
+    return { type: 'REMOVE_PARTICIPANT_FAILED', payload }
 }

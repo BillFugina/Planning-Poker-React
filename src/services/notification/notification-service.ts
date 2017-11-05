@@ -1,4 +1,4 @@
-import { INotificationService } from './index'
+import { INotificationService } from 'services/notification'
 import { registerParticipantAction } from 'actions/participant-actions'
 import { DI, inject, injectable } from 'dependency-injection'
 import { Environment } from 'environment'
@@ -6,6 +6,7 @@ import { IGuid, IParticipant, IRound, IVote } from 'model'
 import * as pusher from 'pusher-js'
 import { ISanitizerService } from 'services/sanitizer/index'
 import { dispatch } from 'store'
+import { unregisterParticipantAction } from 'actions/participant-actions'
 
 @injectable()
 export class NotificationService implements INotificationService {
@@ -49,7 +50,7 @@ export class NotificationService implements INotificationService {
     }
 
     removeParticipant = (participantId: IGuid) => {
-        /* TODO */
+        dispatch(unregisterParticipantAction(participantId))
     }
 
     prepareRound = (data: IRound) => {
