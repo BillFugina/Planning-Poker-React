@@ -42,8 +42,9 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
 
     static mapStateToProps = (state: IAppState, props: IComponentOwnProps): IComponentMapStateProps => {
         const Session = state.Session || null
-        const { Name, Master, Participants } = Session
-        const Voters = Participants.filter(p => p.Role === ParticipantRole.Voter)
+        const { Participants } = state
+        const { Name, Master } = Session
+        const Voters = Object.keys(Participants).map(k => Participants[k]).filter(p => p.Role === ParticipantRole.Voter)
         return { Name, Master, Voters }
     }
 

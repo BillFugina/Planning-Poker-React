@@ -1,9 +1,24 @@
-import { ISession } from 'model'
+import { ICard, IGuid, IHash, IParticipant, Round } from 'model'
 
 export interface IAppState {
-    Session: ISession
+    Session: ISessionState
+    Participants: IParticipantState
+    
 }
 
 export const InitialAppState: Readonly<IAppState> = {
-    Session: null
+    Session: null,
+    Participants: {}
 }
+
+export type ISessionState = {
+    Id: IGuid
+    Name: string
+    Master: IParticipant
+    AutoReveal: boolean
+    Cards: ICard[]
+    CurrentRound: Round
+    Rounds: Round[]
+}
+
+export type IParticipantState = IHash<IGuid, IParticipant>

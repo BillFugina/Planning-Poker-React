@@ -1,19 +1,21 @@
-import * as React from 'react'
-import * as Redux from 'redux'
-import { Provider } from 'react-redux'
-import { IAppState } from 'state'
-import { composeWithDevTools } from 'redux-devtools-extension'
 import { MutedActions } from 'actions/index'
+import * as React from 'react'
+import { Provider } from 'react-redux'
 import { combineReducers } from 'reducers'
+import { ParticipantReducer } from 'reducers/participant-reducer'
 import { SessionReducer } from 'reducers/session-reducer'
-import createSagaMiddleware from 'redux-saga'
+import * as Redux from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 import { createLogger as createLoggerMiddleware } from 'redux-logger'
-import { combineSagas } from '../sagas/index'
-import { SessionSaga } from '../sagas/session-saga'
+import createSagaMiddleware from 'redux-saga'
+import { combineSagas } from 'sagas/index'
+import { SessionSaga } from 'sagas/session-saga'
+import { IAppState } from 'state'
 
 const reducers = combineReducers(
     {
-        Session: SessionReducer
+        Session: SessionReducer,
+        Participants: ParticipantReducer
     }
 )
 

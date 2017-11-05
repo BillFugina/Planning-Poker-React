@@ -3,25 +3,25 @@ import { IParticipant } from 'model'
 
 // ACTION TYPES
 export type IParticipantActionTypes =
-    | IAddParticipantActionTypes
+    | IRegisterParticipantActionTypes
 
-export type IAddParticipantActionTypes =
-    | 'ADD_PARTICIPANT'
-    | 'ADD_PARTICIPANT_SUCCEEDED'
-    | 'ADD_PARTICIPANT_FAILED'
+export type IRegisterParticipantActionTypes =
+    | 'REGISTER_PARTICIPANT'
+    | 'REGISTER_PARTICIPANT_SUCCEEDED'
+    | 'REGISTER_PARTICIPANT_FAILED'
 
 /*
 /* Payload Area
 */
 export type BaseParticipantActionPayload = {}
 
-// ADD_PARTICIPANT Payloads
-export type AddParticipantActionPayload = BaseParticipantActionPayload & {
+// REGISTER_PARTICIPANT Payloads
+export type RegisterParticipantActionPayload = BaseParticipantActionPayload & {
     participant: IParticipant
 }
-export type AddParticipantActionSucceededPayload = BaseParticipantActionPayload & {
+export type RegisterParticipantActionSucceededPayload = BaseParticipantActionPayload & {
 }
-export type AddParticipantActionFailedPayload = ActionFailedPayload & {
+export type RegisterParticipantActionFailedPayload = ActionFailedPayload & {
 }
 
 /*
@@ -29,24 +29,24 @@ export type AddParticipantActionFailedPayload = ActionFailedPayload & {
 */
 export type ParticipantAction<Payload extends BaseParticipantActionPayload, ActionType extends IParticipantActionTypes> = IAppAction<Payload, ActionType>
 
-// Add Participant Actions
-export type AddParticipantAction = ParticipantAction<AddParticipantActionPayload, 'ADD_PARTICIPANT'>
-export type AddParticipantSucceededAction = ParticipantAction<AddParticipantActionSucceededPayload, 'ADD_PARTICIPANT_SUCCEEDED'>
-export type AddParticipantFailedAction = ParticipantAction<AddParticipantActionFailedPayload, 'ADD_PARTICIPANT_FAILED'>
+// Register Participant Actions
+export type RegisterParticipantAction = ParticipantAction<RegisterParticipantActionPayload, 'REGISTER_PARTICIPANT'>
+export type RegisterParticipantSucceededAction = ParticipantAction<RegisterParticipantActionSucceededPayload, 'REGISTER_PARTICIPANT_SUCCEEDED'>
+export type RegisterParticipantFailedAction = ParticipantAction<RegisterParticipantActionFailedPayload, 'REGISTER_PARTICIPANT_FAILED'>
 
 /*
 /* Actions Creators Area
 */
 
-// Add Participant Action Creators
-export function addParticipantAction(participant: IParticipant): AddParticipantAction {
-    return { type: 'ADD_PARTICIPANT', payload: { participant } }
+// Register Participant Action Creators
+export function registerParticipantAction(participant: IParticipant): RegisterParticipantAction {
+    return { type: 'REGISTER_PARTICIPANT', payload: { participant } }
 }
 
-export function addParticipantSucceededAction(session: IParticipant): AddParticipantSucceededAction {
-    return { type: 'ADD_PARTICIPANT_SUCCEEDED' }
+export function registerParticipantSucceededAction(session: IParticipant): RegisterParticipantSucceededAction {
+    return { type: 'REGISTER_PARTICIPANT_SUCCEEDED' }
 }
 
-export function addParticipantFailedAction(payload: AddParticipantActionFailedPayload): AddParticipantFailedAction {
-    return { type: 'ADD_PARTICIPANT_FAILED', payload }
+export function registerParticipantFailedAction(payload: RegisterParticipantActionFailedPayload): RegisterParticipantFailedAction {
+    return { type: 'REGISTER_PARTICIPANT_FAILED', payload }
 }

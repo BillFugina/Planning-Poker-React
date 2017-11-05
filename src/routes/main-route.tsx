@@ -1,12 +1,12 @@
 import { restoreSessionAction } from 'actions/session-actions'
-import { IGuid, ISession } from 'model'
+import { IGuid } from 'model'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
 import * as Redux from 'redux'
 import { HomeRoute } from 'routes/home-route'
 import { MasterRoute } from 'routes/master-route'
-import { IAppState } from 'state'
+import { IAppState, ISessionState } from 'state'
 
 interface IComponentRouteParams { }
 interface IComponentOwnProps extends RouteComponentProps<IComponentRouteParams> { }
@@ -14,7 +14,7 @@ interface IComponentOwnProps extends RouteComponentProps<IComponentRouteParams> 
 interface IComponentState { }
 
 interface IComponentMapStateProps {
-    Session: ISession
+    Session: ISessionState
 }
 
 interface IComponentMapDispatchProps { 

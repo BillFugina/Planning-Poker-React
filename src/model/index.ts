@@ -1,7 +1,7 @@
 export type IEntityId = number
 export type IGuid = string
 export type IJson = string
-export type IHash<TValue> = { [key: string]: TValue }
+export type IHash<TKey extends string, TValue = string> = { [key in TKey]: TValue }
 export type IDateTime = string
 
 export interface ISettings {
