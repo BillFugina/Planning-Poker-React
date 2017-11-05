@@ -9,5 +9,8 @@ export const Environment: IEnvironment = {
     cookies: {
         domain: 'dogspots.com',
         expires: 365
+    },
+    pusher: {
+        apiKey: 'dbb03672c21dbc11baf5'
     }
 }

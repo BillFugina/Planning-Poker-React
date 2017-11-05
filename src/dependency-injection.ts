@@ -1,7 +1,25 @@
+import { INotificationService } from './services/notification/index'
+import { NotificationService } from './services/notification/notification-service'
 import { Container, injectable } from 'inversify'
 import getDecorators from 'inversify-inject-decorators'
 import 'reflect-metadata'
+import { IWebApiService } from 'services/http'
+import { IHttpService } from 'services/http'
+import { AxiosWebApiService } from 'services/http/axios'
+import { AxiosHttpService } from 'services/http/axios'
+import { ISanitizerService } from 'services/sanitizer/index'
+import { SanitizerService } from 'services/sanitizer/sanitizer-service'
+import { ICookieStorageKey } from 'services/storage'
+import { IStorageServices } from 'services/storage'
+import { ILocalStorageKey } from 'services/storage'
 import { IStorageService } from 'services/storage'
+import { ISessionStorageKey } from 'services/storage'
+import { CookieStorageService } from 'services/storage/cookie-storage'
+import { LocalStorageService } from 'services/storage/local-storage'
+import { SessionStorageService } from 'services/storage/session-storage'
+import { StorageServices } from 'services/storage/storage-services'
+import { IToasterService } from 'services/toaster'
+import { AlertToasterService } from 'services/toaster/alert-toaster-service'
 
 export { injectable }
 
@@ -9,10 +27,12 @@ export class DI {
     static ICookieStorageService: symbol = null
     static IHttpService: symbol = null
     static ILocalStorageService: symbol = null
+    static ISanitizerService: symbol = null
     static ISessionStorageService: symbol = null
     static IStorageServices: symbol = null
     static IToasterService: symbol = null
     static IWebApiService: symbol = null
+    static INotificationService: symbol = null
 }
 
 Object.keys(DI).forEach(k => DI[k] = Symbol(k))
@@ -28,46 +48,40 @@ const { lazyInject: inject } = getDecorators(container)
 export { inject }
 
 // ICookieStorageService
-import { ICookieStorageKey } from 'services/storage'
 interface ICookieStorageService extends IStorageService<ICookieStorageKey> { }
-import { CookieStorageService } from 'services/storage/cookie-storage'
 container.bind<ICookieStorageService>(DI.ICookieStorageService).to(CookieStorageService).inSingletonScope()
 export { ICookieStorageService }
 
 // ILocalStorageService
-import { ILocalStorageKey } from 'services/storage'
 interface ILocalStorageService extends IStorageService<ILocalStorageKey> { }
-import { LocalStorageService } from 'services/storage/local-storage'
 container.bind<ILocalStorageService>(DI.ILocalStorageService).to(LocalStorageService).inSingletonScope()
 export { ILocalStorageService }
 
 // ISessionStorageService
-import { ISessionStorageKey } from 'services/storage'
 interface ISessionStorageService extends IStorageService<ISessionStorageKey> { }
-import { SessionStorageService } from 'services/storage/session-storage'
 container.bind<ISessionStorageService>(DI.ISessionStorageService).to(SessionStorageService).inSingletonScope()
 export { ISessionStorageService }
 
 // IStorageServices
-import { IStorageServices } from 'services/storage'
-import { StorageServices } from 'services/storage/storage-services'
 container.bind<IStorageServices>(DI.IStorageServices).to(StorageServices).inSingletonScope()
 export { IStorageServices }
 
 // IToasterService
-import { IToasterService } from 'services/toaster'
-import { AlertToasterService } from 'services/toaster/alert-toaster-service'
 container.bind<IToasterService>(DI.IToasterService).to(AlertToasterService).inSingletonScope()
 export { IToasterService }
 
 // IHttpService
-import { IHttpService } from 'services/http'
-import { AxiosHttpService } from 'services/http/axios'
 container.bind<IHttpService>(DI.IHttpService).to(AxiosHttpService).inSingletonScope()
 export { IHttpService }
 
 // IWebApiService
-import { IWebApiService } from 'services/http'
-import { AxiosWebApiService } from 'services/http/axios'
 container.bind<IWebApiService>(DI.IWebApiService).to(AxiosWebApiService).inSingletonScope()
 export { IWebApiService }
+
+// ISanitizerService
+container.bind<ISanitizerService>(DI.ISanitizerService).to(SanitizerService).inSingletonScope()
+export { ISanitizerService }
+
+// INotificationService
+container.bind<INotificationService>(DI.INotificationService).to(NotificationService).inSingletonScope()
+export { INotificationService }

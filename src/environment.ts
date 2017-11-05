@@ -1,9 +1,9 @@
+import { IEnvironment } from 'model/environment'
 /**
  * GENERATED FILE
  * CHANGES WILL BE LOST
  */
 
-import { IEnvironment } from 'model/environment'
 export const Environment: IEnvironment = {
     name: 'development',
     clientUrl: 'http://localhost:9000',
@@ -14,5 +14,8 @@ export const Environment: IEnvironment = {
     cookies: {
         domain: 'dogspots.com',
         expires: 365
+    },
+    pusher: {
+        apiKey: 'dbb03672c21dbc11baf5'
     }
 }

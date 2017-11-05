@@ -7,6 +7,9 @@ export interface IEnvironment {
         url: string,
         routePrefix: string
     },
-    cookies: cookie.CookieAttributes
+    cookies: cookie.CookieAttributes,
+    pusher: {
+        apiKey: string
+    }
    
 }
