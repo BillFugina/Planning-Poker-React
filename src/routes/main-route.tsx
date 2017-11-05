@@ -7,6 +7,7 @@ import * as Redux from 'redux'
 import { HomeRoute } from 'routes/home-route'
 import { MasterRoute } from 'routes/master-route'
 import { IAppState, ISessionState } from 'state'
+import { DefaultRoute } from 'routes/default-route'
 
 interface IComponentRouteParams { }
 interface IComponentOwnProps extends RouteComponentProps<IComponentRouteParams> { }
@@ -17,7 +18,7 @@ interface IComponentMapStateProps {
     Session: ISessionState
 }
 
-interface IComponentMapDispatchProps { 
+interface IComponentMapDispatchProps {
     restoreSession: (sessionID?: IGuid) => void
 }
 
@@ -26,7 +27,7 @@ type IComponentProps =
     & IComponentMapStateProps
     & IComponentMapDispatchProps
 
-type views = 'home' | 'master' | 'player'
+type views = 'none' | 'home' | 'master' | 'player'
 
 class MainRouteClass extends React.Component<IComponentProps, IComponentState> {
     constructor(props: IComponentProps, state: IComponentState) {
@@ -55,16 +56,18 @@ class MainRouteClass extends React.Component<IComponentProps, IComponentState> {
 
     render() {
         const { Session } = this.props
-        const view: views = Session == null
-            ? 'home'
-            : 'master'
-        // const { sessionName, userName} = this.state
+        const view: views = (!Session)
+            ? 'none'
+            : Session.Id == null
+                ? 'home'
+                : 'master'
         switch (view) {
             case 'master':
                 return (<MasterRoute />)
             case 'home':
-            default:
                 return (<HomeRoute />)
+            default:
+                return (<DefaultRoute/>)
         }
     }
 

@@ -92,7 +92,7 @@ export class SessionSaga implements IAppSaga {
                 yield put(restoreSessionSucceededAction(session))
             } catch (error) {
                 this.clearSessionID()
-                yield put(startSessionFailedAction({ error }))
+                yield put(restoreSessionFailedAction({ error }))
                 }
         } else {
             this.clearSessionID()

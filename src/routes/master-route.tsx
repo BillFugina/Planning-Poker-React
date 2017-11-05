@@ -1,5 +1,4 @@
-import { ParticipantRole } from '../model/index'
-import { IParticipant } from 'model'
+import { ParticipantRole, IParticipant } from 'model'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { RouteComponentProps } from 'react-router'
@@ -12,7 +11,7 @@ import {
     Icon,
     Segment,
     Table
-    } from 'semantic-ui-react'
+} from 'semantic-ui-react'
 import { IAppState } from 'state'
 
 interface IComponentRouteParams { }
@@ -54,7 +53,13 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
 
     static defaultProps: Partial<IComponentProps> = {}
 
+    handleLinkClick = (participant: IParticipant) => (event: React.MouseEvent<HTMLLinkElement>) => {
+        // tslint:disable-next-line:no-console
+        console.log('Click')
+    }
+
     render() {
+        const { handleLinkClick } = this
         const { Name, Master, Voters } = this.props
         return (
             <Container>
@@ -83,9 +88,6 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
                                     <Table.Cell>
                                         {Master.Name}
                                     </Table.Cell>
-                                    <Table.Cell collapsing={true}>
-                                        <Icon fitted name="x" color="red" link />
-                                    </Table.Cell>
                                 </Table.Row>
                                 {Voters.map(voter => (
                                     <Table.Row key={voter.Id}>
@@ -96,7 +98,7 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
                                             {voter.Name}
                                         </Table.Cell>
                                         <Table.Cell collapsing={true}>
-                                            <Icon fitted name="x" color="red" link />
+                                            <Icon fitted name="x" color="red" link onClick={handleLinkClick(voter)}/>
                                         </Table.Cell>
                                     </Table.Row>
                                 ))}

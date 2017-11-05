@@ -2,6 +2,7 @@ import { ISessionActionTypes, StartSessionSucceededAction } from 'actions/sessio
 import { CreateReducer } from 'reducers'
 import { AspectReducer, IAppReducerAspect } from 'reducers/aspect-reducer'
 import { InitialAppState, ISessionState } from 'state'
+import { EmptySessionState } from '../state/index'
 
 const SessionAspect: IAppReducerAspect<ISessionState, ISessionActionTypes> = {
     START_SESSION: (state, action) => {
@@ -21,7 +22,7 @@ const SessionAspect: IAppReducerAspect<ISessionState, ISessionActionTypes> = {
         return newSession
     },
     RESTORE_SESSION_FAILED: (state, action) => {
-        return InitialAppState.Session
+        return EmptySessionState
     }}
 
 export const SessionReducer = CreateReducer(

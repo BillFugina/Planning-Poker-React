@@ -21,4 +21,14 @@ export type ISessionState = {
     Rounds: Round[]
 }
 
+export const EmptySessionState: ISessionState = {
+    Id: null,
+    Name: '',
+    Master: null,
+    AutoReveal: false,
+    Cards: [],
+    CurrentRound: null,
+    Rounds: []
+}
+
 export type IParticipantState = IHash<IGuid, IParticipant>

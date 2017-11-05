@@ -4,6 +4,7 @@ import { RestoreSessionSucceededAction, StartSessionSucceededAction } from 'acti
 import { CreateReducer } from 'reducers'
 import { AspectReducer, IAppReducerAspect } from 'reducers/aspect-reducer'
 import { InitialAppState, IParticipantState } from 'state'
+import { UnregisterParticipantAction } from '../actions/participant-actions'
 
 const ParticipantAspect: IAppReducerAspect<IParticipantState, IAppActionType> = {
     START_SESSION_SUCCEEDED: (state, action: StartSessionSucceededAction) => {
@@ -24,6 +25,13 @@ const ParticipantAspect: IAppReducerAspect<IParticipantState, IAppActionType> = 
         let participants = { ...{}, ...state}
         var newParticipant = action.payload.participant
         participants[newParticipant.Id] = newParticipant
+        return participants
+    },
+
+    UNREGISTER_PARTICIPANT: (state, action: UnregisterParticipantAction) => {
+        let participants = { ...{}, ...state}
+        var targetParticipant = action.payload.participant
+        participants[targetParticipant.Id] = undefined
         return participants
     }
 }

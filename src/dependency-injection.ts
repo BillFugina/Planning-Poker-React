@@ -13,8 +13,8 @@ export class DI {
     static IStorageServices: symbol = null
     static IToasterService: symbol = null
     static IWebApiService: symbol = null
-	static ISanitizerService: symbol = null
-	static INotificationService: symbol = null
+    static ISanitizerService: symbol = null
+    static INotificationService: symbol = null
 }
 
 Object.keys(DI).forEach(k => DI[k] = Symbol(k))
