@@ -1,4 +1,5 @@
 import { removeParticipantAction } from 'actions/participant-actions'
+import { PokerCard } from 'components/poker-card'
 import { IGuid, IParticipant, ParticipantRole } from 'model'
 import * as React from 'react'
 import { connect } from 'react-redux'
@@ -11,15 +12,16 @@ import {
     Header,
     Icon,
     Segment,
-    Table,
-    Card
+    Table
 } from 'semantic-ui-react'
 import { IAppState } from 'state'
 
 interface IComponentRouteParams { }
 interface IComponentOwnProps extends RouteComponentProps<IComponentRouteParams> { }
 
-interface IComponentState { }
+interface IComponentState {
+    flipped: boolean
+}
 
 interface IComponentMapStateProps {
     SessionID: IGuid
@@ -41,6 +43,7 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
     constructor(props: IComponentProps, state: IComponentState) {
         super(props, state)
         this.state = {
+            flipped: false
         }
     }
 
@@ -65,8 +68,13 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
         removeParticipant(SessionID, participant)
     }
 
+    handleCardClick = () => (event: React.MouseEvent<HTMLDivElement>) => {
+        this.setState({ flipped: !this.state.flipped })
+    }
+
     render() {
-        const { handleLinkClick } = this
+        const { handleLinkClick, handleCardClick } = this
+        const { flipped } = this.state
         const { Name, Master, Voters } = this.props
         return (
             <Container>
@@ -115,8 +123,10 @@ class MasterRouteClass extends React.Component<IComponentProps, IComponentState>
                     <Segment>
                         <Header as="h3">Current Round</Header>
                         <Divider />
-                        <Segment textAlign="center">
-                            <Card color="teal" centered/>
+                        <Segment compact basic>
+                        <PokerCard flipped={flipped} onClick={handleCardClick()}>
+                            3
+                        </PokerCard>
                         </Segment>
                     </Segment>
                     <Segment>

@@ -17,8 +17,68 @@
 .App-intro {
   font-size: large;
 }
-
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.card-container {
+  cursor: pointer;
+  height: 9em;
+  perspective: 600;
+  position: relative;
+  width: 7em;
+  display: inline-block;
+  margin: 5px 5px;
+}
+
+.flip-card {
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: all 1s ease-in-out;
+  width: 100%;
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  border-radius: .5em;
+
+  &.flipped {
+    transform: rotateY(180deg);
+  }
+  @mixin side() {
+    border-radius: .5em;
+    backface-visibility: hidden;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .back {
+    @include side();
+    background-color: steelBlue;
+    background-image: url("images/nami.png");
+  }
+
+  .front {
+    @include side();
+    background-color: whitesmoke;
+    border-radius: .5em;
+    line-height: 150px;
+    text-align: center;
+    transform: rotateY(180deg);
+    font-size: 5em;
+
+    .content {
+      position: relative;
+      top: -10%;
+    }
+  }
 }
