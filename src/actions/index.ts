@@ -1,4 +1,5 @@
 import { IParticipantActionTypes } from 'actions/participant-actions'
+import { IRoundActionTypes } from 'actions/round-actions'
 import { ISessionActionTypes } from 'actions/session-actions'
 import { ISystemActionTypes } from 'actions/system-actions'
 import { IToasterActionTypes } from 'actions/toaster-actions'
@@ -9,6 +10,7 @@ export type IAppActionType =
     | ISessionActionTypes
     | IToasterActionTypes
     | IParticipantActionTypes
+    | IRoundActionTypes
 
 export interface IAppAction<TPayload = any, TActionType extends IAppActionType = IAppActionType> extends Redux.Action {
     type: TActionType

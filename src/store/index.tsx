@@ -3,20 +3,22 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { combineReducers } from 'reducers'
 import { ParticipantReducer } from 'reducers/participant-reducer'
+import { RoundReducer } from 'reducers/round-reducer'
 import { SessionReducer } from 'reducers/session-reducer'
 import * as Redux from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { createLogger as createLoggerMiddleware } from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import { combineSagas } from 'sagas/index'
+import { ParticipantSaga } from 'sagas/participant-saga'
 import { SessionSaga } from 'sagas/session-saga'
 import { IAppState } from 'state'
-import { ParticipantSaga } from '../sagas/participant-saga'
 
 const reducers = combineReducers(
     {
         Session: SessionReducer,
-        Participants: ParticipantReducer
+        Participants: ParticipantReducer,
+        Rounds: RoundReducer
     }
 )
 

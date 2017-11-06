@@ -1,14 +1,15 @@
-import { ICard, IGuid, IHash, IParticipant, Round } from 'model'
+import { ICard, IGuid, IHash, IParticipant, IRound } from 'model'
 
 export interface IAppState {
     Session: ISessionState
     Participants: IParticipantState
-    
+    Rounds: IRoundState
 }
 
 export const InitialAppState: Readonly<IAppState> = {
     Session: null,
-    Participants: {}
+    Participants: {},
+    Rounds: []
 }
 
 export type ISessionState = {
@@ -17,8 +18,6 @@ export type ISessionState = {
     Master: IParticipant
     AutoReveal: boolean
     Cards: ICard[]
-    CurrentRound: Round
-    Rounds: Round[]
 }
 
 export const EmptySessionState: ISessionState = {
@@ -26,9 +25,9 @@ export const EmptySessionState: ISessionState = {
     Name: '',
     Master: null,
     AutoReveal: false,
-    Cards: [],
-    CurrentRound: null,
-    Rounds: []
+    Cards: []
 }
 
 export type IParticipantState = IHash<IGuid, IParticipant>
+
+export type IRoundState= IRound[]

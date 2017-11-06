@@ -115,6 +115,14 @@ export interface IRound {
     Average: number
 }
 
+export const EmptyRound: IRound = {
+    Id: null,
+    State: RoundState.Null,
+    Votes: [],
+    End: null,
+    Average: null
+}
+
 export class Round implements IRound {
     Id: number = 0
     State: RoundState = RoundState.Null
