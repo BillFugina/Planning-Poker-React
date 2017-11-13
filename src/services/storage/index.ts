@@ -18,6 +18,7 @@ export type ICookieStorageKey = keyof ICookieStorage
  */
 export interface ILocalStorage {
   SessionID: IGuid
+  UserID: IGuid
 }
 export type ILocalStorageKey = keyof ILocalStorage
 

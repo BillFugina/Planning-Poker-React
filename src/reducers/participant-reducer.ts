@@ -1,10 +1,9 @@
-import { IAppActionType } from 'actions'
-import { RegisterParticipantAction } from 'actions/participant-actions'
-import { RestoreSessionSucceededAction, StartSessionSucceededAction } from 'actions/session-actions'
-import { CreateReducer } from 'reducers'
 import { AspectReducer, IAppReducerAspect } from 'reducers/aspect-reducer'
+import { CreateReducer } from 'reducers'
+import { IAppActionType } from 'actions'
 import { InitialAppState, IParticipantState } from 'state'
-import { UnregisterParticipantAction } from '../actions/participant-actions'
+import { RegisterParticipantAction, UnregisterParticipantAction } from 'actions/participant-actions'
+import { RestoreSessionSucceededAction, StartSessionSucceededAction } from 'actions/session-actions'
 
 const ParticipantAspect: IAppReducerAspect<IParticipantState, IAppActionType> = {
     START_SESSION_SUCCEEDED: (state, action: StartSessionSucceededAction) => {

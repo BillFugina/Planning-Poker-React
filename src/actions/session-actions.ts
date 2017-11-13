@@ -47,6 +47,7 @@ export type StartSessionActionFailedPayload = ActionFailedPayload & {
 // RESTORE_SESSION Payloads
 export type RestoreSessionActionPayload = BaseSessionActionPayload & {
     sessionID?: IGuid
+    userID?: IGuid
 }
 export type RestoreSessionActionSucceededPayload = BaseSessionActionPayload & {
     session: ISession

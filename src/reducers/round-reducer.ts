@@ -7,7 +7,7 @@ import { CreateReducer } from 'reducers'
 import { IAppReducerAspect } from 'reducers/aspect-reducer'
 import { AspectReducer } from 'reducers/aspect-reducer'
 import { InitialAppState, IRoundState } from 'state'
-import { EndRoundAction } from '../actions/round-actions'
+import { EndRoundAction, StartCountdownAction } from '../actions/round-actions'
 import { RoundState } from '../model/index'
 
 const RoundAspect: IAppReducerAspect<IRoundState, IAppActionType> = {
@@ -30,6 +30,16 @@ const RoundAspect: IAppReducerAspect<IRoundState, IAppActionType> = {
         if (currentRound.Id === action.payload.roundID) {
             currentRound.State = RoundState.Complete
         }
+        setCurrentRound(rounds, currentRound)
+        return rounds
+    },
+    START_COUNTDOWN: (state, action: StartCountdownAction) => {
+        const rounds = state.slice()
+        const currentRound = getCurrentRound(rounds)
+        if (currentRound.Id !== action.payload.round.Id) {
+            throw 'Round mismatch.'
+        }
+        currentRound.State = RoundState.Started
         setCurrentRound(rounds, currentRound)
         return rounds
     }

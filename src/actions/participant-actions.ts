@@ -1,4 +1,4 @@
-import { ActionFailedPayload, IAppAction } from './index'
+import { ActionFailedPayload, IAppAction } from 'actions'
 import { IParticipant, IGuid } from 'model'
 
 // ACTION TYPES

@@ -23,7 +23,11 @@ const SessionAspect: IAppReducerAspect<ISessionState, ISessionActionTypes> = {
     },
     RESTORE_SESSION_FAILED: (state, action) => {
         return EmptySessionState
-    }}
+    },
+    END_SESSION: (state, action) => {
+        return EmptySessionState
+    }
+}
 
 export const SessionReducer = CreateReducer(
     InitialAppState.Session,

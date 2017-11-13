@@ -4,12 +4,7 @@ export interface IAppState {
     Session: ISessionState
     Participants: IParticipantState
     Rounds: IRoundState
-}
-
-export const InitialAppState: Readonly<IAppState> = {
-    Session: null,
-    Participants: {},
-    Rounds: []
+    CurrentUser: ICurrentUserState
 }
 
 export type ISessionState = {
@@ -28,6 +23,17 @@ export const EmptySessionState: ISessionState = {
     Cards: []
 }
 
+export const EmptyCurrentUser: ICurrentUserState = ''
+
+export const InitialAppState: Readonly<IAppState> = {
+    CurrentUser: null,
+    Session: null,
+    Participants: {},
+    Rounds: []
+}
+
 export type IParticipantState = IHash<IGuid, IParticipant>
 
 export type IRoundState= IRound[]
+
+export type ICurrentUserState = string

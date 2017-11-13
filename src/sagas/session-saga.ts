@@ -1,5 +1,6 @@
+import { call, put, takeEvery } from 'redux-saga/effects'
+import { DI, inject, IStorageServices, IWebApiService } from 'dependency-injection'
 import { EndSessionAction, RestoreSessionAction, restoreSessionFailedAction, restoreSessionSucceededAction } from '../actions/session-actions'
-import { INotificationService } from '../services/notification/index'
 import {
     endSessionSucceededAction,
     LeaveSessionAction,
@@ -9,10 +10,10 @@ import {
     startSessionFailedAction,
     startSessionSucceededAction
     } from 'actions/session-actions'
-import { DI, inject, IStorageServices, IWebApiService } from 'dependency-injection'
-import { ISession, ISessionApplication } from 'model'
-import { call, put, takeEvery } from 'redux-saga/effects'
 import { IAppSaga, ISagaGenerator } from 'sagas'
+import { INotificationService } from '../services/notification/index'
+import { ISession, ISessionApplication, IGuid } from 'model'
+import { setCurrentUserAction } from 'actions/current-user-actions'
 
 export class SessionSaga implements IAppSaga {
     @inject(DI.IWebApiService) protected readonly webapi: IWebApiService
@@ -36,11 +37,15 @@ export class SessionSaga implements IAppSaga {
             const request = this.webapi.post('sessions').withBody(sessionApplication).request()
             const response = yield (call(this.webapi.send.bind(this.webapi), request))
             const session: ISession = response.data
+            const currentUserID = session.Master.Id
             this.saveSessionID(session)
+            this.saveUserID(currentUserID)
             this.joinSessionNotifications(session.Name)
             yield put(startSessionSucceededAction(session))
+            yield put(setCurrentUserAction(currentUserID))
         } catch (error) {
             this.clearSessionID()
+            this.clearUserID()
             yield put(startSessionFailedAction({ error }))
         }
     }
@@ -52,6 +57,7 @@ export class SessionSaga implements IAppSaga {
             const response = yield (call(this.webapi.send.bind(this.webapi), request))
             if (response && response.status === 200) {
                 this.clearSessionID()
+                this.clearUserID()
                 this.leaveSessionNotifications()
                 yield put(endSessionSucceededAction())
             } else {
@@ -69,6 +75,7 @@ export class SessionSaga implements IAppSaga {
             const response = yield (call(this.webapi.send.bind(this.webapi), request))
             if (response && response.status === 200) {
                 this.clearSessionID()
+                this.clearUserID()
                 this.leaveSessionNotifications()
                 yield put(leaveSessionSucceededAction())
             } else {
@@ -82,20 +89,24 @@ export class SessionSaga implements IAppSaga {
     private *restoreSession(action: RestoreSessionAction): ISagaGenerator {
         const { payload } = action
         const sessionID = payload.sessionID || this.storage.local.get('SessionID')
-        if (sessionID) {
+        const currentUserID = payload.userID || this.storage.local.get('UserID')
+        if (sessionID && currentUserID) {
             try {
                 const request = this.webapi.get('sessions', sessionID).request()
                 const response = yield (call(this.webapi.send.bind(this.webapi), request))
                 const session: ISession = response.data
                 this.saveSessionID(session)
+                this.saveUserID(currentUserID)
                 this.joinSessionNotifications(session.Name)
                 yield put(restoreSessionSucceededAction(session))
             } catch (error) {
                 this.clearSessionID()
+                this.clearUserID()
                 yield put(restoreSessionFailedAction({ error }))
                 }
         } else {
             this.clearSessionID()
+            this.clearUserID()
             yield put(restoreSessionFailedAction({ error: 'no session id' }))
         }
     }
@@ -106,6 +117,14 @@ export class SessionSaga implements IAppSaga {
 
     private clearSessionID() {
         this.storage.local.remove('SessionID')
+    }
+
+    private saveUserID(userID: IGuid) {
+        this.storage.local.set('UserID', userID)
+    }
+
+    private clearUserID() {
+        this.storage.local.remove('UserID')
     }
 
     private joinSessionNotifications(sessionName: string) {

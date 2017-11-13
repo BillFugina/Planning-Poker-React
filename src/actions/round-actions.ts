@@ -6,6 +6,7 @@ export type IRoundActionTypes =
     | IRegisterVoteActionTypes
     | IPrepareRoundActionTypes
     | IEndRoundActionTypes
+    | IStartCountdownActionTypes
 
 export type IRegisterVoteActionTypes =
     | 'REGISTER_VOTE'
@@ -21,6 +22,11 @@ export type IEndRoundActionTypes =
     | 'END_ROUND'
     | 'END_ROUND_SUCCEEDED'
     | 'END_ROUND_FAILED'
+
+export type IStartCountdownActionTypes =
+    | 'START_COUNTDOWN'
+    | 'START_COUNTDOWN_SUCCEEDED'
+    | 'START_COUNTDOWN_FAILED'
 
 /*
 /* Payload Area
@@ -54,6 +60,15 @@ export type EndRoundActionSucceededPayload = BaseRoundActionPayload & {
 export type EndRoundActionFailedPayload = ActionFailedPayload & {
 }
 
+// START_COUNTDOWN Payloads
+export type StartCountdownActionPayload = BaseRoundActionPayload & {
+    round: IRound
+}
+export type StartCountdownActionSucceededPayload = BaseRoundActionPayload & {
+}
+export type StartCountdownActionFailedPayload = ActionFailedPayload & {
+}
+
 /*
 /* Actions Area
 */
@@ -73,6 +88,11 @@ export type PrepareRoundFailedAction = VoteAction<PrepareRoundActionFailedPayloa
 export type EndRoundAction = VoteAction<EndRoundActionPayload, 'END_ROUND'>
 export type EndRoundSucceededAction = VoteAction<EndRoundActionSucceededPayload, 'END_ROUND_SUCCEEDED'>
 export type EndRoundFailedAction = VoteAction<EndRoundActionFailedPayload, 'END_ROUND_FAILED'>
+
+// Start Countdown Actions
+export type StartCountdownAction = VoteAction<StartCountdownActionPayload, 'START_COUNTDOWN'>
+export type StartCountdownSucceededAction = VoteAction<StartCountdownActionSucceededPayload, 'START_COUNTDOWN_SUCCEEDED'>
+export type StartCountdownFailedAction = VoteAction<StartCountdownActionFailedPayload, 'START_COUNTDOWN_FAILED'>
 
 /*
 /* Actions Creators Area
@@ -115,4 +135,17 @@ export function endRoundSucceededAction(): EndRoundSucceededAction {
 
 export function endRoundFailedAction(payload: EndRoundActionFailedPayload): EndRoundFailedAction {
     return { type: 'END_ROUND_FAILED', payload }
+}
+
+// Start Countdown Action Creators
+export function startCountdownAction(round: IRound): StartCountdownAction {
+    return { type: 'START_COUNTDOWN', payload: { round } }
+}
+
+export function startCountdownSucceededAction(): StartCountdownSucceededAction {
+    return { type: 'START_COUNTDOWN_SUCCEEDED' }
+}
+
+export function startCountdownFailedAction(payload: StartCountdownActionFailedPayload): StartCountdownFailedAction {
+    return { type: 'START_COUNTDOWN_FAILED', payload }
 }

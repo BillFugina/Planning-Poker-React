@@ -1,14 +1,15 @@
-import { registerParticipantAction } from 'actions/participant-actions'
-import { unregisterParticipantAction } from 'actions/participant-actions'
-import { registerVoteAction, prepareRoundAction } from 'actions/round-actions'
+import * as pusher from 'pusher-js'
 import { DI, inject, injectable } from 'dependency-injection'
+import { dispatch } from 'store'
+import { endRoundAction, startCountdownAction } from 'actions/round-actions'
+import { endSessionAction } from 'actions/session-actions'
 import { Environment } from 'environment'
 import { IGuid, IParticipant, IRound, IVote } from 'model'
-import * as pusher from 'pusher-js'
 import { INotificationService } from 'services/notification'
 import { ISanitizerService } from 'services/sanitizer/index'
-import { dispatch } from 'store'
-import { endRoundAction } from '../../actions/round-actions'
+import { prepareRoundAction, registerVoteAction } from 'actions/round-actions'
+import { registerParticipantAction } from 'actions/participant-actions'
+import { unregisterParticipantAction } from 'actions/participant-actions'
 
 @injectable()
 export class NotificationService implements INotificationService {
@@ -37,7 +38,14 @@ export class NotificationService implements INotificationService {
         this.resetParticipantVotes()
     }
 
-    endSession() {
+    // TODO: Complete these funcitons
+
+    endSession = () => {
+        this.leaveSession()
+        dispatch(endSessionAction())
+    }
+
+    leaveSession() {
         this._channel.unbind_all()
         this._pusher.unsubscribe(this._channel.name)
         this._channel = null
@@ -63,8 +71,8 @@ export class NotificationService implements INotificationService {
         dispatch(endRoundAction(roundId))
     }
 
-    startCountdown = (data: IRound) => {
-        /* TODO */
+    startCountdown = (round: IRound) => {
+        dispatch(startCountdownAction(round))
     }
 
     resetParticipantVotes = () => {
