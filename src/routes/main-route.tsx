@@ -1,13 +1,14 @@
-import { restoreSessionAction } from 'actions/session-actions'
-import { IGuid } from 'model'
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { RouteComponentProps } from 'react-router'
 import * as Redux from 'redux'
-import { HomeRoute } from 'routes/home-route'
-import { MasterRoute } from 'routes/master-route'
-import { IAppState, ISessionState } from 'state'
+import { connect } from 'react-redux'
 import { DefaultRoute } from 'routes/default-route'
+import { HomeRoute } from 'routes/home-route'
+import { IAppState, ISessionState } from 'state'
+import { IGuid } from 'model'
+import { MasterRoute } from 'routes/master-route'
+import { PlanningPoker } from 'components/planning-poker'
+import { restoreSessionAction } from 'actions/session-actions'
+import { RouteComponentProps } from 'react-router'
 
 interface IComponentRouteParams { }
 interface IComponentOwnProps extends RouteComponentProps<IComponentRouteParams> { }
@@ -54,7 +55,7 @@ class MainRouteClass extends React.Component<IComponentProps, IComponentState> {
 
     static defaultProps: Partial<IComponentProps> = {}
 
-    render() {
+    getView = () => {
         const { Session } = this.props
         const view: views = (!Session)
             ? 'none'
@@ -69,6 +70,15 @@ class MainRouteClass extends React.Component<IComponentProps, IComponentState> {
             default:
                 return (<DefaultRoute/>)
         }
+    }
+
+    render() {
+        const { getView } = this
+        return (
+            <PlanningPoker>
+                {getView()}
+            </PlanningPoker>
+        )
     }
 
 }

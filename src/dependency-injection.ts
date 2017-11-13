@@ -79,9 +79,3 @@ import { ISanitizerService } from 'services/sanitizer'
 import { SanitizerService } from 'services/sanitizer/sanitizer-service'
 container.bind<ISanitizerService>(DI.ISanitizerService).to(SanitizerService).inSingletonScope()
 export { ISanitizerService }
-
-// INotificationService
-import { INotificationService } from 'services/notification'
-import { NotificationService } from 'services/notification/notification-service'
-container.bind<INotificationService>(DI.INotificationService).to(NotificationService).inSingletonScope()
-export { INotificationService }

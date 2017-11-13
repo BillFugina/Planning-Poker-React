@@ -11,14 +11,12 @@ import {
     startSessionSucceededAction
     } from 'actions/session-actions'
 import { IAppSaga, ISagaGenerator } from 'sagas'
-import { INotificationService } from '../services/notification/index'
 import { ISession, ISessionApplication, IGuid } from 'model'
 import { setCurrentUserAction } from 'actions/current-user-actions'
 
 export class SessionSaga implements IAppSaga {
     @inject(DI.IWebApiService) protected readonly webapi: IWebApiService
     @inject(DI.IStorageServices) private readonly storage: IStorageServices
-    @inject(DI.INotificationService) private readonly notificationService: INotificationService
 
     public *run(): ISagaGenerator {
         yield takeEvery<StartSessionAction>('START_SESSION', this.startSession.bind(this))
@@ -40,7 +38,6 @@ export class SessionSaga implements IAppSaga {
             const currentUserID = session.Master.Id
             this.saveSessionID(session)
             this.saveUserID(currentUserID)
-            this.joinSessionNotifications(session.Name)
             yield put(startSessionSucceededAction(session))
             yield put(setCurrentUserAction(currentUserID))
         } catch (error) {
@@ -58,7 +55,6 @@ export class SessionSaga implements IAppSaga {
             if (response && response.status === 200) {
                 this.clearSessionID()
                 this.clearUserID()
-                this.leaveSessionNotifications()
                 yield put(endSessionSucceededAction())
             } else {
                 yield put(startSessionFailedAction({ error: response}))
@@ -76,7 +72,6 @@ export class SessionSaga implements IAppSaga {
             if (response && response.status === 200) {
                 this.clearSessionID()
                 this.clearUserID()
-                this.leaveSessionNotifications()
                 yield put(leaveSessionSucceededAction())
             } else {
                 yield put(leaveSessionFailedAction({ error: response}))
@@ -97,7 +92,6 @@ export class SessionSaga implements IAppSaga {
                 const session: ISession = response.data
                 this.saveSessionID(session)
                 this.saveUserID(currentUserID)
-                this.joinSessionNotifications(session.Name)
                 yield put(restoreSessionSucceededAction(session))
             } catch (error) {
                 this.clearSessionID()
@@ -126,13 +120,4 @@ export class SessionSaga implements IAppSaga {
     private clearUserID() {
         this.storage.local.remove('UserID')
     }
-
-    private joinSessionNotifications(sessionName: string) {
-        this.notificationService.joinSession(sessionName)
-    }
-
-    private leaveSessionNotifications() {
-        this.notificationService.endSession()
-    }
-
 }
