@@ -71,15 +71,15 @@ class PlanningPokerClass extends React.Component<
 
   static mapDispatchToProps = (dispatch: Redux.Dispatch<IAppState>, props: IComponentOwnProps): IComponentMapDispatchProps => {
     return {
-      endSession: PlanningPokerClass.endSession(dispatch),
-      leaveSession: PlanningPoker.leaveSession(dispatch),
-      registerVote: PlanningPoker.registerVote(dispatch),
-      registerParticipant: PlanningPoker.registerParticipant(dispatch),
-      removeParticipant: PlanningPoker.removeParticipant(dispatch),
-      prepareRound: PlanningPoker.prepareRound(dispatch),
-      endRound: PlanningPoker.endRound(dispatch),
-      startCountdown: PlanningPoker.startCountdown(dispatch),
-      resetParticipantVotes: PlanningPoker.resetParticipantVotes(dispatch)
+      endSession: Dispatchers.endSession(dispatch),
+      leaveSession: Dispatchers.leaveSession(dispatch),
+      registerVote: Dispatchers.registerVote(dispatch),
+      registerParticipant: Dispatchers.registerParticipant(dispatch),
+      removeParticipant: Dispatchers.removeParticipant(dispatch),
+      prepareRound: Dispatchers.prepareRound(dispatch),
+      endRound: Dispatchers.endRound(dispatch),
+      startCountdown: Dispatchers.startCountdown(dispatch),
+      resetParticipantVotes: Dispatchers.resetParticipantVotes(dispatch)
     }
   }
 
@@ -121,10 +121,6 @@ class PlanningPokerClass extends React.Component<
 
   // TODO: Complete these funcitons
 
-  static endSession = (dispatch: Redux.Dispatch<IAppState>) => () => {
-    dispatch(endSessionAction())
-  }
-
   endSession = () => {
     const { endSession } = this.props
     endSession()
@@ -134,18 +130,8 @@ class PlanningPokerClass extends React.Component<
     this._pusher = undefined
   }
 
-  static leaveSession = (dispatch: Redux.Dispatch<IAppState>) => () => {
-    /* TODO */
-  }
-
   leaveSession = () => {
     /* TODO */
-  }
-
-  static registerVote = (dispatch: Redux.Dispatch<IAppState>) => (
-    vote: IVote
-  ) => {
-    dispatch(registerVoteAction(vote))
   }
 
   registerVote = (vote: IVote) => {
@@ -153,21 +139,9 @@ class PlanningPokerClass extends React.Component<
     registerVote(vote)
   }
 
-  static registerParticipant = (dispatch: Redux.Dispatch<IAppState>) => (
-    participant: IParticipant
-  ) => {
-    dispatch(registerParticipantAction(participant))
-  }
-
   registerParticipant = (participant: IParticipant) => {
     const { registerParticipant } = this.props
     registerParticipant(participant)
-  }
-
-  static removeParticipant = (dispatch: Redux.Dispatch<IAppState>) => (
-    participantId: IGuid
-  ) => {
-    dispatch(unregisterParticipantAction(participantId))
   }
 
   removeParticipant = (participantId: IGuid) => {
@@ -175,21 +149,9 @@ class PlanningPokerClass extends React.Component<
     removeParticipant(participantId)
   }
 
-  static prepareRound = (dispatch: Redux.Dispatch<IAppState>) => (
-    round: IRound
-  ) => {
-    dispatch(prepareRoundAction(round))
-  }
-
   prepareRound = (round: IRound) => {
     const { prepareRound } = this.props
     prepareRound(round)
-  }
-
-  static endRound = (dispatch: Redux.Dispatch<IAppState>) => (
-    roundId: number
-  ) => {
-    dispatch(endRoundAction(roundId))
   }
 
   endRound = (roundId: number) => {
@@ -197,27 +159,53 @@ class PlanningPokerClass extends React.Component<
     endRound(roundId)
   }
 
-  static startCountdown = (dispatch: Redux.Dispatch<IAppState>) => (
-    round: IRound
-  ) => {
-    dispatch(startCountdownAction(round))
-  }
-
   startCountdown = (round: IRound) => {
     const { startCountdown } = this.props
     startCountdown(round)
-  }
-
-  static resetParticipantVotes = (
-    dispatch: Redux.Dispatch<IAppState>
-  ) => () => {
-    /* TODO */
   }
 
   resetParticipantVotes = () => {
     const { resetParticipantVotes } = this.props
     resetParticipantVotes()
   }
+}
+
+class Dispatchers {
+  static endSession = (dispatch: Redux.Dispatch<IAppState>) => () => {
+    dispatch(endSessionAction())
+  }
+
+  static leaveSession = (dispatch: Redux.Dispatch<IAppState>) => () => {
+    /* TODO */
+  }
+
+  static registerVote = (dispatch: Redux.Dispatch<IAppState>) => (vote: IVote) => {
+    dispatch(registerVoteAction(vote))
+  }
+
+  static registerParticipant = (dispatch: Redux.Dispatch<IAppState>) => (participant: IParticipant) => {
+    dispatch(registerParticipantAction(participant))
+  }
+
+  static removeParticipant = (dispatch: Redux.Dispatch<IAppState>) => (participantId: IGuid) => {
+    dispatch(unregisterParticipantAction(participantId))
+  }
+
+  static prepareRound = (dispatch: Redux.Dispatch<IAppState>) => (round: IRound) => {
+    dispatch(prepareRoundAction(round))
+  }
+
+  static endRound = (dispatch: Redux.Dispatch<IAppState>) => (roundId: number) => {
+    dispatch(endRoundAction(roundId))
+  }
+  static startCountdown = (dispatch: Redux.Dispatch<IAppState>) => (round: IRound) => {
+    dispatch(startCountdownAction(round))
+  }
+
+  static resetParticipantVotes = (dispatch: Redux.Dispatch<IAppState>) => () => {
+    /* TODO */
+  }
+
 }
 
 const PlanningPoker = connect(
